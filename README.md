@@ -1,4 +1,5 @@
 # Python Guitar Tuner
+## Settings
 In this repository you can find a simple __python guitar tuner__ based on the _Harmonic Product Spectrum_.
 Just execute the `hps_tuner_plt.py` script and enjoy a tuned guitar. \
 A thorough explanation of the underlying theoretical concepts can be found on my [website](https://www.chciken.com/digital/signal/processing/2020/05/13/guitar-tuner.html). \
@@ -24,4 +25,15 @@ POWER_THRESH = 7e-6
 CONCERT_PITCH = 440
 # Everything under WHITE_NOISE_THRESH*avg_energy_per_freq is cut off.
 WHITE_NOISE_THRESH = 0.2
+```
+## Dependencies
+Python dependencies:
+```bash 
+pip install numpy
+pip install scipy
+pip install sounddevice
+```
+On linux you might need:
+```
+sudo apt-get install libportaudio2
 ```
