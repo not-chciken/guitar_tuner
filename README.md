@@ -13,13 +13,15 @@ SAMPLE_FREQ = 48000
 # size of 48000. This corresponds to a 1 second delay and an frequency
 # resolution of 1 Hz assuming a sampling frequency of 48kHz
 WINDOW_SIZE = 48000
-# Number of samples the DFT window step size
+# Number of samples the DFT window step size.
 # With 12000 samples every 0.25s a new tuning process is executed.
 WINDOW_STEP = 12000
 # Maximum number of harmonic product spectrums
 NUM_HPS = 8
 # Tuning is activated if the signal power exceeds this threshold
 POWER_THRESH = 7e-6
-# Deinition of the concert pitch 'a1'
+# Definition of the concert pitch 'a1'.
 CONCERT_PITCH = 440
+# Everything under WHITE_NOISE_THRESH*avg_energy_per_freq is cut off.
+WHITE_NOISE_THRESH = 0.2
 ```

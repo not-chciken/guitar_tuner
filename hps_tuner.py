@@ -16,9 +16,10 @@ import time
 SAMPLE_FREQ = 48000 # sample frequency in Hz
 WINDOW_SIZE = 48000 # window size of the DFT in samples
 WINDOW_STEP = 12000 # step size of window
-NUM_HPS = 8 # max number of harmonic product spectrums
+NUM_HPS = 5 # max number of harmonic product spectrums
 POWER_THRESH = 1e-6 # tuning is activated if the signal power exceeds this threshold
 CONCERT_PITCH = 440 # defining a1
+WHITE_NOISE_THRESH = 0.2 # everything under WHITE_NOISE_THRESH*avg_energy_per_freq is cut off
 
 WINDOW_T_LEN = WINDOW_SIZE / SAMPLE_FREQ # length of the window in seconds
 SAMPLE_T_LENGTH = 1 / SAMPLE_FREQ # length between two samples in seconds
@@ -83,7 +84,7 @@ def callback(indata, frames, time, status):
       avg_energy_per_freq = (np.linalg.norm(magnitude_spec[ind_start:ind_end], ord=2)**2) / (ind_end-ind_start)
       avg_energy_per_freq = avg_energy_per_freq**0.5
       for i in range(ind_start, ind_end):
-        magnitude_spec[i] = magnitude_spec[i] if magnitude_spec[i] > avg_energy_per_freq else 0
+        magnitude_spec[i] = magnitude_spec[i] if magnitude_spec[i] > WHITE_NOISE_THRESH*avg_energy_per_freq else 0
 
     # interpolate spectrum
     mag_spec_ipol = np.interp(np.arange(0, len(magnitude_spec), 1/NUM_HPS), np.arange(0, len(magnitude_spec)),
