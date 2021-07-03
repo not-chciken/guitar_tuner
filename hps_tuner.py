@@ -61,7 +61,7 @@ def callback(indata, frames, time, status):
     callback.window_samples = callback.window_samples[len(indata[:, 0]):] # remove old samples
 
     # skip if signal power is too low
-    signal_power = (np.linalg.norm(callback.window_samples, ord=2)**2) / len(callback.window_samples)
+    signal_power = (np.linalg.norm(callback.window_samples, ord=2, axis=0)**2) / len(callback.window_samples)
     if signal_power < POWER_THRESH:
       os.system('cls' if os.name=='nt' else 'clear')
       print("Closest note: ...")
@@ -81,7 +81,7 @@ def callback(indata, frames, time, status):
       ind_start = int(OCTAVE_BANDS[j]/DELTA_FREQ)
       ind_end = int(OCTAVE_BANDS[j+1]/DELTA_FREQ)
       ind_end = ind_end if len(magnitude_spec) > ind_end else len(magnitude_spec)
-      avg_energy_per_freq = (np.linalg.norm(magnitude_spec[ind_start:ind_end], ord=2)**2) / (ind_end-ind_start)
+      avg_energy_per_freq = (np.linalg.norm(magnitude_spec[ind_start:ind_end], ord=2, axis=0)**2) / (ind_end-ind_start)
       avg_energy_per_freq = avg_energy_per_freq**0.5
       for i in range(ind_start, ind_end):
         magnitude_spec[i] = magnitude_spec[i] if magnitude_spec[i] > WHITE_NOISE_THRESH*avg_energy_per_freq else 0
@@ -89,7 +89,7 @@ def callback(indata, frames, time, status):
     # interpolate spectrum
     mag_spec_ipol = np.interp(np.arange(0, len(magnitude_spec), 1/NUM_HPS), np.arange(0, len(magnitude_spec)),
                               magnitude_spec)
-    mag_spec_ipol = mag_spec_ipol / np.linalg.norm(mag_spec_ipol, ord=2) #normalize it
+    mag_spec_ipol = mag_spec_ipol / np.linalg.norm(mag_spec_ipol, ord=2, axis=0) #normalize it
 
     hps_spec = copy.deepcopy(mag_spec_ipol)
 
