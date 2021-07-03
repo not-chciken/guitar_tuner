@@ -37,7 +37,7 @@ def find_closest_note(pitch):
     closest_pitch (float): pitch of the closest note in hertz
   """
   i = int(np.round(np.log2(pitch/CONCERT_PITCH)*12))
-  closest_note = ALL_NOTES[i%12] + str(4 + np.sign(i) * int((9+abs(i))/12))
+  closest_note = ALL_NOTES[i%12] + str(4 + (i + 9) // 12)
   closest_pitch = CONCERT_PITCH*2**(i/12)
   return closest_note, closest_pitch
 
